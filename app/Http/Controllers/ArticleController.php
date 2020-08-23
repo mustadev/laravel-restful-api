@@ -14,27 +14,26 @@ class ArticleController extends Controller
     }
 
     // show article by id
-    public function show($id){
-        return Article::find($id);
+    public function show(Article $article){
+        return $article;
     }
 
     // store article
     public function store(Request $request){
-        return Article::create($request->all());
+        $article = Article::create($request->all());
+        return response()->json($article, 201);
     }
 
     // update article
-    public function update(Request $request, $id){
-        $article = Article::findOrFail($id);
+    public function update(Request $request, Article $article){
         $article->update($request->all());
-        return $article;
+
+        return response()->json($article, 200);
     }
 
-    public function delete(Request $request, $id){
-        $article = Article::findOrFail();
+    public function delete(Article $article){
         $article->delete();
-
-        return 204;
+        return response()->json(null, 204);
     }
 
 
