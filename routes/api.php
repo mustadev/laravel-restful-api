@@ -36,3 +36,6 @@ Route::post('register', 'Auth\RegisterController@register');
 
 // login route
 Route::post('login', 'Auth\LoginController@login');
+
+// logout route
+Route::post('logout', 'Auth\LoginController@logout');
