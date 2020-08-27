@@ -1,5 +1,6 @@
 <?php
 
+use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -32,3 +33,6 @@ Route::delete('articles/{article}', 'ArticleController@delete');
 
 // register route
 Route::post('register', 'Auth\RegisterController@register');
+
+// login route
+Route::post('login', 'Auth\LoginController@login');
