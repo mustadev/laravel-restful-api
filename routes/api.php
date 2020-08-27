@@ -24,13 +24,13 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 // Route::post('articles', 'ArticleController@store');
 // Route::put('articles/{id}', 'ArticleController@update');
 // Route::delete('article/{id}', 'ArticleController@delete');
-
-Route::get('articles', 'ArticleController@index');
-Route::get('articles/{article}', 'ArticleController@show');
-Route::post('articles', 'ArticleController@store');
-Route::put('articles/{article}', 'ArticleController@update');
-Route::delete('articles/{article}', 'ArticleController@delete');
-
+Route::group(['middleware' => 'auth:api'], function() {
+    Route::get('articles', 'ArticleController@index');
+    Route::get('articles/{article}', 'ArticleController@show');
+    Route::post('articles', 'ArticleController@store');
+    Route::put('articles/{article}', 'ArticleController@update');
+    Route::delete('articles/{article}', 'ArticleController@delete');
+});
 // register route
 Route::post('register', 'Auth\RegisterController@register');
 
