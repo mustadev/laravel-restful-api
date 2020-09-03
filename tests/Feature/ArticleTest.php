@@ -14,13 +14,13 @@ class ArticleTest extends TestCase
     public function testArticleCreatedSuccessfully()
     {
         $user  = factory(User::class)->create([
-                'name' => "test",
-                'email' => "test@test.com",
-                'password' => 'password'
-                ]);
+            'name' => "test",
+            'email' => "test@test.com",
+            'password' => 'password'
+        ]);
 
         $token = $user->generateToken();
-        $headers = [ 'Authorization' => "Bearer $token"];
+        $headers = ['Authorization' => "Bearer $token"];
 
         $payload = [
             'title' => "test",
@@ -35,6 +35,37 @@ class ArticleTest extends TestCase
                 'title' => 'test',
                 'body' => 'body test'
             ]);
+    }
 
+    public function testArticlesAreUpdatedSuccessfully()
+    {
+        $article = factory(Article::class)->create([
+            'title' => 'test',
+            'body' => 'test body'
+        ]);
+
+
+        $user  = factory(User::class)->create([
+            'name' => "test",
+            'email' => "test@test.com",
+            'password' => 'password'
+        ]);
+
+        $token = $user->generateToken();
+        $headers = ['Authorization' => "Bearer $token"];
+
+
+        $payload = [
+            'title' => "new title",
+            'body' => "new body test"
+        ];
+
+        $this->json('PUT', "api/articles/" . $article->id, $payload, $headers)
+            ->assertStatus(200)
+            ->assertJson([
+                'id' => 1,
+                'title' => 'new title',
+                'body' => 'new body test'
+            ]);
     }
 }
