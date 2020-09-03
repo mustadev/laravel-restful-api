@@ -26,4 +26,22 @@ class LogoutTest extends TestCase
         $this->assertEquals(null, $user->api_token);
 
     }
+
+    public function testUserWithNullToken()
+    {
+        $user = factory(User::class)->create([
+            'name' => "test",
+            'email' => "test@test.com",
+            'password' => 'password']);
+
+        $token = $user->generateToken();
+
+        $headers = ['Authorization' => "Bearer $token"];
+
+        $user->api_token = null;
+        $user->save();
+
+        $this->json('get', '/api/articles', [], $headers)
+            ->assertStatus(401);
+    }
 }
