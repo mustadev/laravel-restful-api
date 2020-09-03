@@ -67,4 +67,26 @@ class ArticleTest extends TestCase
                 'body' => 'new body test'
             ]);
     }
+
+    public function testArticlesAreDeletedSuccessfully()
+    {
+        $article = factory(Article::class)->create([
+            'title' => 'test',
+            'body' => 'test body'
+        ]);
+
+
+        $user  = factory(User::class)->create([
+            'name' => "test",
+            'email' => "test@test.com",
+            'password' => 'password'
+        ]);
+
+        $token = $user->generateToken();
+        $headers = ['Authorization' => "Bearer $token"];
+
+        $this->json('DELETE', "api/articles/" . $article->id, [], $headers)
+            ->dump()
+            ->assertStatus(204);
+    }
 }
