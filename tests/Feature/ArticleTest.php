@@ -117,7 +117,9 @@ class ArticleTest extends TestCase
             ->assertStatus(200)
             ->assertJson([
                 ['title' => 'title1', 'body' => 'body1'],
-                ['title' => 'title2', 'body' => 'body2']
+                ['title' => 'title2', 'body' => 'body2']])
+            ->assertJsonStructure([
+                "*" => ['title', 'body']
             ]);
     }
 }
