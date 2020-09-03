@@ -18,7 +18,6 @@ class RegisterTest extends TestCase
         ];
 
         $this->json('POST', 'api/register', $payload)
-        ->dump()
         ->assertStatus(201)
         ->assertJsonStructure([
             'data' => [
