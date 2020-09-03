@@ -31,4 +31,22 @@ class RegisterTest extends TestCase
             ],
         ]);
     }
+
+    public function testRequirePasswordConfirmation()
+    {
+        $payload = [
+            'name' => "test",
+            'email' => "test@test.com",
+            'password' => "password"
+        ];
+
+        $this->json('POST', 'api/register', $payload)
+            ->assertStatus(422)
+            ->assertJson([
+                'message' => "The given data was invalid.",
+                'errors' => [
+                    'password' => [ "The password confirmation does not match." ]
+                ]
+            ]);
+    }
 }
