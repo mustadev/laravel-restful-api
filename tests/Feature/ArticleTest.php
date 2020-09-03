@@ -29,7 +29,6 @@ class ArticleTest extends TestCase
 
         $this->json('POST', 'api/articles', $payload, $headers)
             ->assertStatus(201)
-            ->dump()
             ->assertJson([
                 'id' => 1,
                 'title' => 'test',
