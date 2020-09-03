@@ -89,4 +89,35 @@ class ArticleTest extends TestCase
             ->dump()
             ->assertStatus(204);
     }
+
+    public function testArticlesAreListedSuccessfully()
+    {
+        $article = factory(Article::class)->create([
+            'title' => 'test1',
+            'body' => 'body1'
+        ]);
+
+        $article = factory(Article::class)->create([
+            'title' => 'test2',
+            'body' => 'body2'
+        ]);
+
+
+        $user  = factory(User::class)->create([
+            'name' => "test",
+            'email' => "test@test.com",
+            'password' => 'password'
+        ]);
+
+        $token = $user->generateToken();
+        $headers = ['Authorization' => "Bearer $token"];
+
+        $this->json('GET', "api/articles", [], $headers)
+            // ->dump()
+            ->assertStatus(200)
+            ->assertJson([
+                ['title' => 'title1', 'body' => 'body1'],
+                ['title' => 'title2', 'body' => 'body2']
+            ]);
+    }
 }
