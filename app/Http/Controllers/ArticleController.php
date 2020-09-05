@@ -20,7 +20,12 @@ class ArticleController extends Controller
 
     // store article
     public function store(Request $request){
-        $article = Article::create($request->all());
+        $article = Article::create([
+            'title' => $request->input('title'),
+            'body' => $request->input('body'),
+            'user_id' => auth()->user()->id
+        ]);
+
         return response()->json($article, 201);
     }
 
